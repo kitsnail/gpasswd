@@ -1,0 +1,295 @@
+# golangci-lint configuration for gpasswd
+# https://golangci-lint.run/usage/configuration/
+
+run:
+  # Timeout for analysis
+  timeout: 5m
+
+  # Exit code when issues are found
+  issues-exit-code: 1
+
+  # Include test files
+  tests: true
+
+  # Skip directories
+  skip-dirs:
+    - vendor
+    - .github
+    - docs
+    - scripts
+
+  # Skip files
+  skip-files:
+    - ".*\\.pb\\.go$"
+    - ".*\\.gen\\.go$"
+
+  # Modules download mode
+  modules-download-mode: readonly
+
+  # Allow multiple parallel golangci-lint instances
+  allow-parallel-runners: true
+
+output:
+  # Format: colored-line-number, line-number, json, tab, checkstyle, code-climate
+  format: colored-line-number
+
+  # Print lines of code with issue
+  print-issued-lines: true
+
+  # Print linter name in the end of issue text
+  print-linter-name: true
+
+  # Make issues output unique by line
+  uniq-by-line: true
+
+  # Sort results by: filepath, line, and column
+  sort-results: true
+
+linters:
+  # Disable all linters by default
+  disable-all: true
+
+  # Enable specific linters
+  enable:
+    # Bugs and performance
+    - errcheck        # Check for unchecked errors
+    - gosimple        # Simplify code
+    - govet           # Go vet
+    - ineffassign     # Detect ineffectual assignments
+    - staticcheck     # Go static analysis
+    - unused          # Check for unused code
+    - typecheck       # Type-check Go code
+
+    # Style and formatting
+    - gofmt           # Check if code is formatted with gofmt
+    - goimports       # Check if imports are formatted with goimports
+    - misspell        # Spell checker
+
+    # Code quality
+    - gocritic        # Provides diagnostics that check for bugs, performance, and style issues
+    - gocyclo         # Cyclomatic complexity
+    - dupl            # Code duplication detection
+    - goconst         # Repeated strings that could be replaced by a constant
+    - unconvert       # Remove unnecessary type conversions
+
+    # Security
+    - gosec           # Security issues
+    - exportloopref   # Checks for pointers to enclosing loop variables
+
+    # Error handling
+    - errorlint       # Error wrapping checks
+
+    # Best practices
+    - nolintlint      # Ill-formed or insufficient nolint directives
+    - revive          # Fast, configurable, extensible, flexible, and beautiful linter
+
+    # Documentation
+    - godot           # Check if comments end in a period
+
+    # Simplifications
+    - megacheck       # Run staticcheck, gosimple and unused
+    - unparam         # Find unused function parameters
+
+linters-settings:
+  errcheck:
+    # Check type assertions
+    check-type-assertions: true
+    # Check blank assignments
+    check-blank: true
+    # Exclude functions (crypto.Random.Read is expected to always succeed)
+    exclude-functions:
+      - (io.Closer).Close
+      - (*os.File).Close
+
+  govet:
+    # Enable all analyzers
+    enable-all: true
+    # Disable specific analyzers
+    disable:
+      - shadow  # Can be noisy
+
+  gocyclo:
+    # Minimal cyclomatic complexity to report
+    min-complexity: 15
+
+  dupl:
+    # Tokens count to trigger issue
+    threshold: 100
+
+  goconst:
+    # Minimal length of string constant
+    min-len: 3
+    # Minimum occurrences to report
+    min-occurrences: 3
+    # Ignore test files
+    ignore-tests: true
+
+  misspell:
+    # Correct spellings using locale preferences
+    locale: US
+    ignore-words:
+      - gpasswd
+      - argon2
+      - sqlite
+
+  gosec:
+    # Include test files
+    includes:
+      - G401  # Weak crypto
+      - G402  # TLS InsecureSkipVerify
+      - G403  # Weak crypto key
+      - G404  # Weak random
+      - G501  # Blocklisted import md5
+      - G502  # Blocklisted import des
+      - G503  # Blocklisted import rc4
+      - G504  # Blocklisted import sha1
+    # Exclude rules
+    excludes:
+      - G104  # Audit errors not checked (covered by errcheck)
+      - G304  # File path provided as taint input (we need user paths)
+
+  gocritic:
+    # Enable multiple checks by tags
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+      - experimental
+    disabled-checks:
+      - unnecessaryBlock
+      - commentedOutCode
+      - whyNoLint
+
+  revive:
+    # Minimal confidence for issues
+    confidence: 0.8
+    rules:
+      # Enable specific rules
+      - name: blank-imports
+      - name: context-as-argument
+      - name: context-keys-type
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: exported
+      - name: if-return
+      - name: increment-decrement
+      - name: var-naming
+      - name: var-declaration
+      - name: package-comments
+      - name: range
+      - name: receiver-naming
+      - name: time-naming
+      - name: unexported-return
+      - name: indent-error-flow
+      - name: errorf
+      - name: empty-block
+      - name: superfluous-else
+      - name: unused-parameter
+      - name: unreachable-code
+      - name: redefines-builtin-id
+
+  errorlint:
+    # Check whether fmt.Errorf uses the %w verb for formatting errors
+    errorf: true
+    # Check for plain type assertions and type switches
+    asserts: true
+    # Check for plain error comparisons
+    comparison: true
+
+  gofmt:
+    # Simplify code
+    simplify: true
+
+  goimports:
+    # Put local imports after 3rd-party packages
+    local-prefixes: github.com/kitsnail/gpasswd
+
+  unparam:
+    # Inspect exported functions
+    check-exported: false
+
+  godot:
+    # Comments to be checked: declarations, toplevel, or all
+    scope: declarations
+    # Check that each sentence ends with a period
+    period: true
+    # Check that each sentence starts with a capital letter
+    capital: true
+
+issues:
+  # Maximum issues count per one linter
+  max-issues-per-linter: 0
+
+  # Maximum count of issues with the same text
+  max-same-issues: 0
+
+  # Show only new issues
+  new: false
+
+  # Fix found issues (if supported by linter)
+  fix: false
+
+  # Exclude specific rules
+  exclude-rules:
+    # Exclude some linters from running on tests files
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+        - goconst
+
+    # Exclude known issues in auto-generated code
+    - path: ".*\\.pb\\.go"
+      linters:
+        - gofmt
+        - goimports
+        - govet
+
+    # Exclude magic number checks in tests
+    - path: _test\.go
+      text: "mnd: Magic number"
+
+    # Allow main function in cmd/
+    - path: cmd/
+      text: "main function"
+
+    # Exclude long lines in comments
+    - linters:
+        - lll
+      source: "^//.*"
+
+    # Exclude some staticcheck messages
+    - linters:
+        - staticcheck
+      text: "SA9003:"
+
+    # Exclude some gosec messages
+    - linters:
+        - gosec
+      text: "G304:"
+      path: "pkg/config/config.go"  # User-provided paths are expected
+
+  # Independently from option `exclude` we use default exclude patterns
+  exclude-use-default: true
+
+severity:
+  # Default severity level
+  default-severity: error
+
+  # Severity rules
+  rules:
+    - linters:
+        - dupl
+      severity: info
+
+    - linters:
+        - goconst
+      severity: info
+
+    - linters:
+        - godot
+      severity: info

@@ -1,32 +1,451 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
+# ============================================================================
+# gpasswd .gitignore
+# Comprehensive ignore rules for Go password manager project
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Binaries and Executables
+# ----------------------------------------------------------------------------
+# Main binary
+gpasswd
+
+# Platform-specific binaries
+gpasswd-*
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
+# Test binaries
 *.test
 
-# Code coverage profiles and other test artifacts
-*.out
-coverage.*
-*.coverprofile
-profile.cov
+# Profiling and debugging
+*.prof
+*.trace
+*.pprof
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Core dumps
+core
+*.core
+
+# ----------------------------------------------------------------------------
+# Go Build and Test Artifacts
+# ----------------------------------------------------------------------------
+# Compiled Object files
+*.o
+*.a
+*.so
+
+# Go build cache
+go-build/
+
+# Output of the go coverage tool
+*.out
+coverage.out
+coverage.html
+coverage.xml
+coverage.txt
+
+# Test cache
+*.test.cache/
+
+# Dependency directories
+vendor/
 
 # Go workspace file
 go.work
 go.work.sum
 
-# env file
-.env
+# Go sum backup
+go.sum.backup
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# Benchmarking results
+bench.txt
+bench-*.txt
+*.bench
+
+# ----------------------------------------------------------------------------
+# Build Artifacts
+# ----------------------------------------------------------------------------
+# Build directories
+dist/
+build/
+bin/
+release/
+out/
+
+# Archives
+*.tar.gz
+*.tar.bz2
+*.zip
+*.rar
+
+# Checksums
+checksums.txt
+checksums.sha256
+SHA256SUMS
+
+# RPM/DEB packages
+*.rpm
+*.deb
+*.apk
+
+# ----------------------------------------------------------------------------
+# IDE and Editor Configurations
+# ----------------------------------------------------------------------------
+# JetBrains IDEs (IntelliJ, GoLand)
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.history/
+
+# Vim
+*.swp
+*.swo
+*.swn
+*~
+.netrwhist
+Session.vim
+
+# Emacs
+*~
+\#*\#
+.\#*
+.projectile
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-build
+
+# Atom
+.atom/
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata
+
+# ----------------------------------------------------------------------------
+# Operating System Files
+# ----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+
+# Linux
+*~
+.directory
+.Trash-*
+.nfs*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# ----------------------------------------------------------------------------
+# User Data and Sensitive Files (CRITICAL - DO NOT COMMIT)
+# ----------------------------------------------------------------------------
+# gpasswd user data directories
+.gpasswd/
+.gpasswd-test/
+test-home/.gpasswd/
+
+# Database files
+vault.db
+vault.db-journal
+vault.db-wal
+vault.db-shm
+*.db
+*.sqlite
+*.sqlite3
+
+# Configuration files (may contain sensitive data)
+config.yaml
+config.yml
+config.json
+.env
+.env.*
+!.env.example
+
+# Backup files
+*.bak
+*.backup
+*-backup
+*.old
+*.orig
+*.save
+vault-*.db
+
+# Key files
+*.key
+*.pem
+*.p12
+*.pfx
+secret-key
+master.key
+encryption.key
+
+# Log files with potential sensitive data
+*.log
+logs/
+*.log.*
+audit.log
+
+# ----------------------------------------------------------------------------
+# Development and Testing
+# ----------------------------------------------------------------------------
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+.tmp/
+
+# Debug files
+debug
+debug.log
+debug.test
+__debug_bin
+
+# Test fixtures
+fixtures/tmp/
+testdata/tmp/
+
+# Mock data
+mock_data/
+test_vault/
+
+# Experiment files
+scratch/
+playground/
+experiments/
+
+# Profile data
+cpu.prof
+mem.prof
+profile.out
+
+# ----------------------------------------------------------------------------
+# Documentation Build
+# ----------------------------------------------------------------------------
+# Generated documentation
+docs/_build/
+docs/.docusaurus/
+site/
+_site/
+
+# API documentation
+apidoc/
+*.swagger.json
+
+# ----------------------------------------------------------------------------
+# Package Manager and Dependencies
+# ----------------------------------------------------------------------------
+# Dependency lock files (keep these usually, but backup just in case)
+# go.sum - KEEP THIS, commented out
+# go.mod - KEEP THIS, commented out
+
+# Vendor backup
+vendor.bak/
+
+# Go modules cache
+$GOPATH/pkg/mod/
+
+# ----------------------------------------------------------------------------
+# CI/CD and Automation
+# ----------------------------------------------------------------------------
+# CI artifacts
+.ci/
+.github/workflows/*.log
+
+# Docker
+docker-compose.override.yml
+.dockerignore.local
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Kubernetes
+*.kubeconfig
+
+# ----------------------------------------------------------------------------
+# Security and Secrets
+# ----------------------------------------------------------------------------
+# Secret scanning
+.secrets/
+secrets.yaml
+credentials.json
+service-account.json
+
+# GPG
+secring.*
+*.gpg
+*.asc
+
+# SSH
+id_rsa
+id_ed25519
+*.priv
+authorized_keys
+
+# TLS/SSL
+*.crt
+*.cer
+*.p7b
+
+# ----------------------------------------------------------------------------
+# Performance and Monitoring
+# ----------------------------------------------------------------------------
+# Profiling
+*.mem
+*.cpu
+*.block
+*.mutex
+
+# Tracing
+trace.out
+
+# ----------------------------------------------------------------------------
+# Miscellaneous
+# ----------------------------------------------------------------------------
+# Patch files
+*.patch
+*.diff
+
+# Archive files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.tgz
+*.xz
+
+# SQLite temporary files
+*.db-wal
+*.db-shm
+
+# CTags
+tags
+TAGS
+.tags
+.TAGS
+
+# Node (if using for tooling)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Python (if using for tooling)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+
+# Ruby (if using for tooling)
+.bundle/
+*.gem
+
+# ----------------------------------------------------------------------------
+# Project Specific
+# ----------------------------------------------------------------------------
+# Local configuration overrides
+config.local.yaml
+.gpasswd.local.yaml
+
+# Performance benchmarks
+benchmarks/
+*.benchmark
+
+# Integration test data
+integration-test-data/
+
+# Coverage reports
+coverage/
+htmlcov/
+
+# Security scan results
+.snyk
+trivy-report.json
+vulnerability-scan.txt
+
+# Large test files
+*.large
+testdata/large/
+
+# Build metadata
+.build-metadata
+VERSION.txt
+
+# Release notes draft
+RELEASE_NOTES.draft.md
+
+# Local scripts (user-specific automation)
+local-scripts/
+my-*.sh
+dev-*.sh
+
+# ----------------------------------------------------------------------------
+# Keep These Files (Whitelist)
+# ----------------------------------------------------------------------------
+# Important: Explicitly keep certain files that might match above patterns
+!.gitignore
+!.gitkeep
+!.env.example
+!README.md
+!LICENSE
+!Makefile
+!go.mod
+!go.sum
+
+# Keep example configuration
+!config.example.yaml
+!config.sample.yaml
+
+# Keep test fixtures
+!testdata/**/*.db.golden
+!testdata/**/*.yaml.golden
+
+# ----------------------------------------------------------------------------
+# End of .gitignore
+# ----------------------------------------------------------------------------

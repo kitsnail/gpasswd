@@ -1,0 +1,130 @@
+# gpasswd Configuration Example
+# Copy this file to ~/.gpasswd/config.yaml and customize as needed
+
+# Session configuration
+session:
+  # Session timeout in seconds
+  # After this period of inactivity, the master password must be re-entered
+  # Set to 0 to never timeout (not recommended for security)
+  timeout: 300  # 5 minutes (default)
+
+# Clipboard configuration
+clipboard:
+  # Time in seconds before automatically clearing the clipboard
+  # Set to 0 to disable auto-clear (not recommended)
+  clear_timeout: 30  # 30 seconds (default)
+
+# Password generator default settings
+password_generator:
+  # Default length for generated passwords
+  length: 20
+
+  # Include uppercase letters (A-Z)
+  use_uppercase: true
+
+  # Include lowercase letters (a-z)
+  use_lowercase: true
+
+  # Include digits (0-9)
+  use_digits: true
+
+  # Include special symbols (!@#$%^&*...)
+  use_symbols: true
+
+  # Exclude ambiguous characters that look similar
+  # Ambiguous: 0/O, 1/l/I, etc.
+  exclude_ambiguous: false
+
+# Security configuration
+security:
+  # Number of failed password attempts before lockout
+  failed_attempts_limit: 5
+
+  # Duration of lockout in seconds after failed attempts
+  lockout_duration: 30
+
+# Argon2id key derivation parameters
+# WARNING: Changing these after initialization will make existing vault inaccessible!
+# Only modify if you know what you're doing
+argon2:
+  # Number of iterations (time cost)
+  # Higher = more secure but slower
+  # Recommended: 3-5
+  time_cost: 3
+
+  # Memory cost in KB
+  # Higher = more secure but uses more RAM
+  # 65536 KB = 64 MB (recommended)
+  memory_cost: 65536
+
+  # Number of parallel threads
+  # Should match CPU core count
+  # Recommended: 4
+  parallelism: 4
+
+# Display preferences
+display:
+  # Show creation/update timestamps when listing entries
+  show_timestamps: true
+
+  # Date format for timestamps
+  # Go time format: https://golang.org/pkg/time/#pkg-constants
+  date_format: "2006-01-02 15:04"
+
+# Advanced settings (optional)
+# Uncomment and modify if needed
+
+# Backup settings
+# backup:
+#   # Enable automatic backups on every modification
+#   enabled: true
+#
+#   # Directory to store backups
+#   path: ~/.gpasswd/backups
+#
+#   # Maximum number of backup files to keep
+#   max_backups: 10
+#
+#   # Create backup before destructive operations
+#   backup_before_delete: true
+
+# Audit logging (future)
+# audit:
+#   # Enable audit logging
+#   enabled: false
+#
+#   # Log file path
+#   log_path: ~/.gpasswd/audit.log
+#
+#   # Log access attempts
+#   log_access: true
+#
+#   # Log modifications
+#   log_modifications: true
+
+# Search settings
+# search:
+#   # Case-insensitive search by default
+#   case_insensitive: true
+#
+#   # Fuzzy matching threshold (0.0 - 1.0)
+#   fuzzy_threshold: 0.7
+
+# Import/Export settings (future)
+# import_export:
+#   # Default export format
+#   default_format: json
+#
+#   # Encrypt exports by default
+#   encrypt_exports: true
+
+# Notifications (future)
+# notifications:
+#   # Show desktop notifications
+#   enabled: false
+#
+#   # Notify when clipboard is cleared
+#   notify_clipboard_clear: true
+#
+#   # Notify on session timeout
+#   notify_session_timeout: true

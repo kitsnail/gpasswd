@@ -1,0 +1,119 @@
+# gpasswd Git Attributes
+# This file defines attributes for pathnames
+# https://git-scm.com/docs/gitattributes
+
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Explicitly declare text files with LF line endings
+*.go text eol=lf
+*.mod text eol=lf
+*.sum text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf
+*.bash text eol=lf
+Makefile text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+LICENSE text eol=lf
+CHANGELOG text eol=lf
+AUTHORS text eol=lf
+
+# Scripts should always have LF line endings on checkout
+*.sh text eol=lf
+scripts/** text eol=lf
+
+# Windows-specific files use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.a binary
+*.o binary
+
+# Database files (should never be committed, but just in case)
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.tgz binary
+*.bz2 binary
+*.7z binary
+*.rar binary
+
+# Certificates and keys (should never be committed)
+*.pem binary
+*.key binary
+*.p12 binary
+*.pfx binary
+*.crt binary
+*.cer binary
+
+# Go-specific
+# Mark vendor directory to not show in diffs (if vendoring)
+vendor/** linguist-vendored
+
+# Documentation
+docs/** linguist-documentation
+
+# Git LFS (Large File Storage) - if needed in future
+# *.db filter=lfs diff=lfs merge=lfs -text
+# *.sqlite filter=lfs diff=lfs merge=lfs -text
+
+# Diff settings for Go files
+*.go diff=golang
+
+# Export-ignore (files not included in git archive/export)
+.gitignore export-ignore
+.gitattributes export-ignore
+.github/ export-ignore
+.vscode/ export-ignore
+.idea/ export-ignore
+test/ export-ignore
+tests/ export-ignore
+*_test.go export-ignore
+*.test export-ignore
+Makefile export-ignore
+.env* export-ignore
+docs/ export-ignore
+examples/ export-ignore
+
+# Merge strategies
+*.md merge=union
+CHANGELOG merge=union
+AUTHORS merge=union
+
+# Custom diff for specific file types
+*.yaml diff=yaml
+*.json diff=json
+
+# Security: treat these as binary to avoid accidental exposure in diffs
+*.env binary
+config.yaml binary
+vault.db binary
+
+# Language statistics
+*.md linguist-documentation
+*.go linguist-language=Go
+Makefile linguist-language=Makefile
