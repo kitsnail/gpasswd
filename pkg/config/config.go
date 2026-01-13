@@ -10,6 +10,10 @@ import (
 
 // Config represents the application configuration
 type Config struct {
+	Database struct {
+		Path string `mapstructure:"path"` // Database file path
+	} `mapstructure:"database"`
+
 	Session struct {
 		Timeout int `mapstructure:"timeout"` // seconds, 0 = no timeout
 	} `mapstructure:"session"`
@@ -30,13 +34,14 @@ type Config struct {
 	Security struct {
 		FailedAttemptsLimit int `mapstructure:"failed_attempts_limit"`
 		LockoutDuration     int `mapstructure:"lockout_duration"` // seconds
-	} `mapstructure:"security"`
 
-	Argon2 struct {
-		TimeCost    uint32 `mapstructure:"time_cost"`
-		MemoryCost  uint32 `mapstructure:"memory_cost"` // KB
-		Parallelism uint8  `mapstructure:"parallelism"`
-	} `mapstructure:"argon2"`
+		Argon2 struct {
+			Time        uint32 `mapstructure:"time"`
+			Memory      uint32 `mapstructure:"memory"` // KB
+			Parallelism uint8  `mapstructure:"parallelism"`
+			KeyLength   uint32 `mapstructure:"key_length"`
+		} `mapstructure:"argon2"`
+	} `mapstructure:"security"`
 
 	Display struct {
 		ShowTimestamps bool   `mapstructure:"show_timestamps"`
@@ -47,6 +52,9 @@ type Config struct {
 // DefaultConfig returns a config with default values
 func DefaultConfig() *Config {
 	cfg := &Config{}
+
+	// No default database path (will be set by CLI if not configured)
+	cfg.Database.Path = ""
 
 	cfg.Session.Timeout = 300 // 5 minutes
 
@@ -61,10 +69,10 @@ func DefaultConfig() *Config {
 
 	cfg.Security.FailedAttemptsLimit = 5
 	cfg.Security.LockoutDuration = 30
-
-	cfg.Argon2.TimeCost = 3
-	cfg.Argon2.MemoryCost = 65536 // 64 MB
-	cfg.Argon2.Parallelism = 4
+	cfg.Security.Argon2.Time = 3
+	cfg.Security.Argon2.Memory = 65536 // 64 MB
+	cfg.Security.Argon2.Parallelism = 4
+	cfg.Security.Argon2.KeyLength = 32
 
 	cfg.Display.ShowTimestamps = true
 	cfg.Display.DateFormat = "2006-01-02 15:04"
@@ -125,11 +133,11 @@ func (c *Config) Save() error {
 	viper.SetConfigType("yaml")
 
 	// Marshal config to viper
+	viper.Set("database", c.Database)
 	viper.Set("session", c.Session)
 	viper.Set("clipboard", c.Clipboard)
 	viper.Set("password_generator", c.PasswordGenerator)
 	viper.Set("security", c.Security)
-	viper.Set("argon2", c.Argon2)
 	viper.Set("display", c.Display)
 
 	if err := viper.WriteConfig(); err != nil {
